@@ -1,11 +1,17 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import {startAddExpense, addExpense, editExpense, removeExpense, setExpenses, startSetExpenses, startRemoveExpense } from '../../actions/expenses';
+import {startAddExpense, 
+    addExpense, 
+    editExpense, 
+    removeExpense, 
+    setExpenses, 
+    startSetExpenses, 
+    startRemoveExpense, 
+    startEditExpense } from '../../actions/expenses';
 import expenses from '../fixtures/expenses';
 import database from '../../firebase/firebase';
 
 const createMockStore = configureMockStore([thunk]);
-
 
 beforeEach((done) => {
     const expensesData = {};
@@ -23,6 +29,23 @@ test('should set up remove expense action object', () => {
     });
 });
 
+test('should remove expenses from firebase', (done) => {    
+    const store = createMockStore({}); 
+    const id = expenses[2].id;
+    store.dispatch(startRemoveExpense({id})).then(() => {
+        const actions = store.getActions();
+        expect(actions[0]).toEqual({
+            type: 'REMOVE_EXPENSE',
+            id
+        });
+        return database.ref(`expenses/${id}`).once('value');
+    }).then((snapshot) => {
+        expect(snapshot.val()).toBeFalsy();
+        done();
+    });
+});
+
+
 test('should set up edit expense action object', () => {
     const action = editExpense('123abc', {note: 'new note'});
     expect(action).toEqual({
@@ -31,6 +54,27 @@ test('should set up edit expense action object', () => {
         updates: {
             note: 'new note'
         }
+    });
+});
+
+
+test('should edit expense from firebase', (done) => {  
+    const store = createMockStore({}); 
+    const id = expenses[2].id;
+    const updates = {
+        note: 'changed note'
+    }
+    store.dispatch(startEditExpense(id, updates)).then(() => {
+        const actions = store.getActions();
+        expect(actions[0]).toEqual({
+            type: 'EDIT_EXPENSE',
+            id,
+            updates
+        });
+        return database.ref(`expenses/${id}`).once('value');
+    }).then((snapshot) => {
+        expect(snapshot.val().note).toEqual(updates.note);
+        done();
     });
 });
 
@@ -112,4 +156,3 @@ test('should fetch expenses from firebase', (done) => {
         done();
     });
 });
-
