@@ -1,7 +1,7 @@
 import Enzyme from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import DotEnv from 'dotenv';
-import 'raf/polyfill';
+// import 'raf/polyfill';
 
 DotEnv.config({path: '.env.test'});
 // require('dotenv').config({path: '.env.test'});
