@@ -1,5 +1,5 @@
-import * as firebase from 'firebase';
-import moment from 'moment';
+import * as firebase from "firebase";
+// import moment from 'moment';
 
 const config = {
   apiKey: process.env.FIREBASE_API_KEY,
@@ -7,15 +7,15 @@ const config = {
   databaseURL: process.env.FIREBASE_DATABASE_URL,
   projectId: process.env.FIREBASE_PROJECT_ID,
   storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID
+  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
 };
 
 firebase.initializeApp(config);
 const database = firebase.database();
 const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
+const facebookAuthProvider = new firebase.auth.FacebookAuthProvider();
 
-export {firebase, googleAuthProvider, database as default};
-
+export {firebase, googleAuthProvider, facebookAuthProvider, database as default};
 
 // database.ref('expenses').on('child_removed', (snapshot) => {
 //   console.log(snapshot.key, snapshot.val());
@@ -72,27 +72,26 @@ export {firebase, googleAuthProvider, database as default};
 //     console.log(expenses);
 //   });
 
-
 // database.ref('expenses').push(expenses[0]);
 // database.ref('expenses').push(expenses[1]);
 // database.ref('expenses').push(expenses[2]);
 
 // database.ref('notes/-L30dqYwfFKr8hFkwM3B').remove();
 
-// database.ref('notes').push({  
+// database.ref('notes').push({
 //   title: 'course topics',
-//   body: 'this is aother note'    
+//   body: 'this is aother note'
 // })
 
 // const firebaseNotes = {
 //   notes: {
 //     fdshfhdsk: {
 //       title: 'first note',
-//       body: 'this is a note'      
+//       body: 'this is a note'
 //     },
 //     hkhkkjkju: {
 //       title: 'anoter note',
-//       body: 'this is a note'    
+//       body: 'this is a note'
 //     }
 //   }
 // }
@@ -124,7 +123,6 @@ export {firebase, googleAuthProvider, database as default};
 //   }
 // });
 
-
 // const onValueChange = database.ref().on('value', (snapshot) => {
 //   console.log(snapshot.val());
 // }, (e) => {
@@ -143,15 +141,15 @@ export {firebase, googleAuthProvider, database as default};
 //   database.ref('age').set(37);
 // }, 9000);
 
-  // database.ref('location')
-  //   .once('value')
-  //   .then((snapshot) => {
-  //     const val = snapshot.val();
-  //     console.log(val);
-  //   })
-  //   .catch((e) => {
-  //     console.log('Error fetching data', e);
-  //   });
+// database.ref('location')
+//   .once('value')
+//   .then((snapshot) => {
+//     const val = snapshot.val();
+//     console.log(val);
+//   })
+//   .catch((e) => {
+//     console.log('Error fetching data', e);
+//   });
 
 // database.ref().set({
 //   name: 'edwin',
@@ -183,7 +181,7 @@ export {firebase, googleAuthProvider, database as default};
 //   })
 //   .catch((e) => {
 //     console.log('delete failed', e);
-  // });
+// });
 
 // database.ref('isSingle').remove()
 // .then(() => {
